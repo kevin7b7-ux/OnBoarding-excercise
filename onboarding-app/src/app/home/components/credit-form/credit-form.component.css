@@ -1,0 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+  }
+  .text-danger{
+    color: red;
+  }
+ 
+
+  .form-container {
+    max-width: 400px;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('../../../../assets/images/descarga-arrow.png') no-repeat right;
+    background-position: calc(100% - 20px) center;
+    padding-right: 30px; 
+    border-radius: 4px;
+  }
+  
+
+  input[readonly] {
+    background-color: #eee;
+  }
+
+  button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  
+.cancel-button {
+  background-color: gray;
+  margin-left: 50px;
+  color: white; 
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  cursor: pointer; 
+}
+
+.cancel-button:hover {
+  background-color: darkgray; 
+}
+
+

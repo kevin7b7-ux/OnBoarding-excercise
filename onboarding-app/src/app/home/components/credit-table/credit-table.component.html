@@ -1,0 +1,35 @@
+<h1>Credit List</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Owner</th>
+      <th>Amount</th>
+      <th>Term</th>
+      <th>Interest Rate</th>
+      <th>Monthly Fee</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  
+      <ng-container *ngIf="credits | async as credits; else noCredits">
+        <tr *ngFor="let credit of credits">
+          <td>{{credit.id}}</td>
+          <td>{{credit.owner}}</td>
+          <td>{{credit.amount | currency}}</td>
+          <td>{{credit.term}}</td>
+          <td>{{credit.interestRate | percent: '1.1-2' }}</td>
+          <td>{{credit.monthlyFee | currency}}</td>
+          <td><a class="link-style" (click)="selectedCredit(credit)">Edit</a></td>
+        </tr>
+      </ng-container>
+    <ng-template #noCredits>
+      <tr>
+        <td colspan="6">No credits available.</td>
+      </tr>
+    </ng-template>
+  </tbody>
+
+</table>

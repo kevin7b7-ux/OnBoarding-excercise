@@ -1,0 +1,55 @@
+<h1>Manage of free investment credit</h1>
+<div class="container">
+  <div class="form-container">
+    <form action="" [formGroup]="creditForm" (ngSubmit)="onSend()">
+
+      <label for="">Owner</label>
+      <input type="text" formControlName="owner" name="owner">
+      <div *ngIf="creditForm.get('owner')?.invalid && creditForm.get('owner')?.touched">
+        <small class="text-danger">Owner is required.</small>
+      </div>
+    
+      <label for="">Amount</label>
+      <input type="number" formControlName="amount" name="amount">
+      <div *ngIf="creditForm.controls['amount'].hasError('min') && creditForm.get('amount')?.touched">
+        <small class="text-danger">Amount may be greater than 100k.</small>
+      </div>
+
+      <div *ngIf="creditForm.controls['amount'].hasError('required') && creditForm.get('amount')?.touched">
+        <small class="text-danger">Amount is require.</small>
+      </div>
+    
+      <label for="">Term</label>
+      <input type="number" formControlName="term" name="term">
+
+      <div *ngIf="creditForm.controls['term'].hasError('min') && creditForm.get('term')?.touched">
+        <small class="text-danger">The term may be greater than 0</small>
+      </div>
+
+      <div *ngIf="creditForm.controls['term'].hasError('required') && creditForm.get('term')?.touched">
+        <small class="text-danger">Term is required.</small>
+      </div>
+    
+      <label for="">Annual Inteners</label>
+      <select   formControlName="interestRate">
+        <option 
+          *ngFor="let interest of interestRates" 
+          [value]="+interest.value">{{interest.display}}
+        </option>
+      </select>
+      <div *ngIf="creditForm.controls['interestRate'].hasError('required') && creditForm.get('interestRate')?.touched">
+        <small class="text-danger">Term is required.</small>
+      </div>
+    
+    
+      <label for="">Monthly Fee</label>
+      <input readonly type="text" formControlName="monthlyFee" name="monthlyFee">
+      <small class="text-danger" *ngIf="showMonthlyFeeError">
+        Please enter all required values to calculate the Monthly Fee.
+      </small>
+    
+      <button>{{ this.id !==0? "Update": "Create"}}</button>
+      <button class="cancel-button" *ngIf="this.id!==0" (click)="cancelUpdate()">Cancel</button>
+    </form>
+  </div>
+</div>

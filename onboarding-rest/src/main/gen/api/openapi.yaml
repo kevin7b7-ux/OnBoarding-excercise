@@ -1,0 +1,237 @@
+openapi: 3.0.0
+info:
+  description: API for managing credit operations in Fire team Onboarding
+  title: Onboarding Credit API
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: Everything about your Credits
+  name: Credit
+- description: Everything about your Calculate a monthly fee
+  name: Monthly Fee
+- description: Everything about your Auth
+  name: Auth
+paths:
+  /credit:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Credit'
+                type: array
+          description: A list of credits
+        "401":
+          description: Access token is missing or invalid
+      security:
+      - bearerAuth: []
+      summary: Get a list of credits
+      tags:
+      - Credit
+      x-accepts: application/json
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditRequest'
+        description: Credit object to be created
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credit'
+          description: Credit created successfully
+        "401":
+          description: Access token is missing or invalid
+      security:
+      - bearerAuth: []
+      summary: Create a new credit
+      tags:
+      - Credit
+      x-content-type: application/json
+      x-accepts: application/json
+  /credit/{id}:
+    put:
+      parameters:
+      - description: ID of the credit to be updated
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditRequest'
+        description: Updated credit object
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credit'
+          description: Credit updated successfully
+        "401":
+          description: Access token is missing or invalid
+      security:
+      - bearerAuth: []
+      summary: Update an existing credit
+      tags:
+      - Credit
+      x-content-type: application/json
+      x-accepts: application/json
+  /monthly-fee:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculateMonthlyFeeRequest'
+        description: Calculation request parameters
+        required: true
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CalculateMonthlyFeeResponse'
+          description: Monthly fee calculated successfully
+        "401":
+          description: Access token is missing or invalid
+      security:
+      - bearerAuth: []
+      summary: Calculate monthly fee for a credit
+      tags:
+      - Monthly Fee
+      x-content-type: application/json
+      x-accepts: text/plain
+  /auth/login:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        description: Auth request parameter
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+          description: token generation successful
+      summary: Generate a token bearer for access to the resources
+      tags:
+      - Auth
+      x-content-type: application/json
+      x-accepts: application/json
+components:
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+  schemas:
+    Credit:
+      example:
+        owner: Kevin Cifuentes
+        interestRate: 0.02
+        amount: 100000
+        term: 5
+        id: 1
+        monthlyFee: 20033.334
+      properties:
+        id:
+          example: 1
+          format: int64
+          type: integer
+        amount:
+          example: 100000
+          type: number
+        owner:
+          example: Kevin Cifuentes
+          type: string
+        term:
+          example: 5
+          type: integer
+        interestRate:
+          example: 0.02
+          type: number
+        monthlyFee:
+          example: 20033.334
+          type: number
+      type: object
+    CreditRequest:
+      example:
+        owner: Kevin Cifuentes
+        interestRate: 0.02
+        amount: 100000
+        term: 5
+        monthlyFee: 20033.334
+      properties:
+        amount:
+          example: 100000
+          type: number
+        owner:
+          example: Kevin Cifuentes
+          type: string
+        term:
+          example: 5
+          type: integer
+        interestRate:
+          example: 0.02
+          type: number
+        monthlyFee:
+          example: 20033.334
+          type: number
+      type: object
+    CalculateMonthlyFeeRequest:
+      example:
+        interestRate: 0.02
+        amount: 100000
+        term: 5
+      properties:
+        amount:
+          example: 100000
+          type: number
+        interestRate:
+          example: 0.02
+          type: number
+        term:
+          example: 5
+          type: integer
+      type: object
+    CalculateMonthlyFeeResponse:
+      example: 20033.334
+      type: number
+    Login:
+      example:
+        email: myEmail@service.com
+      properties:
+        email:
+          example: myEmail@service.com
+          type: string
+      type: object
+    Token:
+      example:
+        accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+      properties:
+        accessToken:
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+          type: string
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+

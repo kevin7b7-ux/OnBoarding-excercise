@@ -1,0 +1,8 @@
+<h1>Welcome to the Credit App</h1>
+<small>Please, type a email for the auth</small>
+
+<form action="" [formGroup]="authForm" (ngSubmit)="onSend()">
+  <label for="" type="email">Email</label>
+  <input type="text" formControlName="email" name="email">
+  <button>Send</button>  
+</form>
